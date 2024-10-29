@@ -52,11 +52,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -817,52 +820,63 @@ public class MainActivity extends AppCompatActivity implements CallTracker.CallS
                 Toast.makeText(this, "Invalid number of attempts", Toast.LENGTH_SHORT).show();
             }
         }
-        private void generateCallQueue(String lastFourDigitsStr, int attempts) {
-            callQueue.clear();
-            int start;
-            try {
-                start = Integer.parseInt(lastFourDigitsStr);
-            } catch (NumberFormatException e) {
-                Toast.makeText(this, "Invalid last four digits format", Toast.LENGTH_SHORT).show();
+    private void generateCallQueue(String lastFourDigitsStr, int attempts) {
+        callQueue.clear();
+        int start;
+        try {
+            start = Integer.parseInt(lastFourDigitsStr);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Invalid last four digits format", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String baseNumber = getBaseNumber();
+        List<String> numbers = new ArrayList<>();
+
+        // Generate the numbers from start to start + attempts - 1
+        for (int i = 0; i < attempts; i++) {
+            @SuppressLint("DefaultLocale") String number = baseNumber + String.format("%04d", (start + i));
+            numbers.add(number);
+        }
+
+        // Shuffle the list to randomize the order
+        Collections.shuffle(numbers);
+
+        // Add the randomized numbers to the call queue
+        callQueue.addAll(numbers);
+
+        logCall("Queue generated (randomized): " + callQueue, "Queue Generated");
+    }
+
+    private void startCalling() {
+        if (!callQueue.isEmpty()) {
+            String phoneNumber = callQueue.poll();
+            if (isPaused) {
                 return;
             }
-            String baseNumber = getBaseNumber();
-            for (int i = 0; i < attempts; i++) {
-                @SuppressLint("DefaultLocale") String number = baseNumber + String.format("%04d", (start + i));
-                callQueue.add(number);
-            }
-            logCall("Queue generated: " + callQueue, "Queue Generated");
-        }
-
-        private void startCalling() {
-            if (!callQueue.isEmpty()) {
-                String phoneNumber = callQueue.poll();
-                if (isPaused) {
-                    return;
-                }
-                if (!MgaNasaDoNotContactList(phoneNumber)) {
-                    callPhoneNumber(phoneNumber);
-                    updateDialedCounter();
-                } else {
-                    logCall(phoneNumber, "Skipped (Do Not Contact)");
-                    Toast.makeText(this, "Skipped (Do Not Contact):" + phoneNumber, Toast.LENGTH_SHORT).show();
-                    handler.post(this::startCalling);
-                }
-            }
-        }
-
-        private void callPhoneNumber(String phoneNumber) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + phoneNumber));
-                startActivity(intent);
-                logCall(phoneNumber, "Dialed");
-                lastDialedNumber = phoneNumber;
-                isCallOngoing = true;
+            if (!MgaNasaDoNotContactList(phoneNumber)) {
+                callPhoneNumber(phoneNumber);
+                updateDialedCounter();
             } else {
-                Toast.makeText(this, "Call permission not granted.", Toast.LENGTH_SHORT).show();
+                logCall(phoneNumber, "Skipped (Do Not Contact)");
+                Toast.makeText(this, "Skipped (Do Not Contact): " + phoneNumber, Toast.LENGTH_SHORT).show();
+                handler.post(this::startCalling);
             }
         }
+    }
+
+    private void callPhoneNumber(String phoneNumber) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:" + phoneNumber));
+            startActivity(intent);
+            logCall(phoneNumber, "Dialed");
+            lastDialedNumber = phoneNumber;
+            isCallOngoing = true;
+        } else {
+            Toast.makeText(this, "Call permission not granted.", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
         private void logCall(String phoneNumber, String status) {

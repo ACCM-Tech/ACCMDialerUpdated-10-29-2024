@@ -51,7 +51,7 @@ public class LoginUseAccessCode extends AppCompatActivity {
 	private BluetoothAdapter bluetoothAdapter;
 	private static final int REQUEST_ENABLE_BT = 1;
 	private static final int REQUEST_BLUETOOTH_PERMISSIONS = 2;
-	private String TrustedBluetoothAddress1ForLoginPurpose = "BC:EA:9C:1D:13:E4";
+	private final String TrustedBluetoothAddress1ForLoginPurpose = "BC:EA:9C:1D:13:E4";
 	private AlertDialog searchingDialog;
 	private static final String[] REQUIRED_PERMISSIONS = {
 			Manifest.permission.BLUETOOTH,
@@ -68,9 +68,10 @@ public class LoginUseAccessCode extends AppCompatActivity {
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		requestQueue = Volley.newRequestQueue(this);
 		version = "1.0.6";
-		checkForUpdatedVersionOfTheApp();
-		checkAndRequestBluetoothPermissions();
-		clearPreferencesAtNine();
+//		checkForUpdatedVersionOfTheApp();
+//		checkAndRequestBluetoothPermissions();
+//		clearPreferencesAtNine();
+		redirectToMainActivity();
 	}
 
 	private boolean hasAllBluetoothPermissions() {
