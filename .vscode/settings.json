@@ -1,0 +1,21 @@
+{
+    "netbeans.jdkhome": "c:\\Program Files\\Java\\jdk-23",
+    "netbeans.project.jdkhome": "c:\\Program Files\\Java\\jdk-23",
+    "java.jdt.ls.java.home": "c:\\Program Files\\Java\\jdk-23",
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-23",
+            "path": "c:\\Program Files\\Java\\jdk-23"
+        }
+    ],
+    "terminal.integrated.env.windows": {
+        "JAVA_HOME": "c:\\Program Files\\Java\\jdk-23",
+        "PATH": "c:\\Program Files\\Java\\jdk-23\\bin;${env:PATH}"
+    },
+    "maven.terminal.customEnv": [
+        {
+            "environmentVariable": "JAVA_HOME",
+            "value": "c:\\Program Files\\Java\\jdk-23"
+        }
+    ]
+}
