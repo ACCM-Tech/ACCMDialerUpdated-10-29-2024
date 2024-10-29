@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/nine_am_11am_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="9AM to 11AM"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp" /> <!-- Ensure the margin attribute is correctly set here -->
+
+    <Button
+        android:id="@+id/eleven_am_to2pm_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="11AM to 2PM"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nine_am_11am_button"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/two_pm_to_4pm_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="2PM to 4PM"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/eleven_am_to2pm_button"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/four_pm_to_6pm_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="4PM to 6PM"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/two_pm_to_4pm_button"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/deduping_button_to_show_the_view_of_webview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="SEE REPORT"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/four_pm_to_6pm_button" />
+
+    <Button
+        android:id="@+id/deduping_button_to_show_the_view_of_webview2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="SEND REQUIREMENTS EMAIL"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deduping_button_to_show_the_view_of_webview" />
+
+    <Button
+        android:id="@+id/previous_reports_view_with_date_picker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="SEE PREVIOUS REPORTS"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deduping_button_to_show_the_view_of_webview2"
+        tools:visibility="visible" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+<!--
+Updated version: 10/29/2024 - Disabled some views(Dupe, Email and Previous Report)
+-->
